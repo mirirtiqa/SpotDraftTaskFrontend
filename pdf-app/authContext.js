@@ -14,6 +14,27 @@ export const AuthProvider = ({ children }) => {
     return null;
   });
 
+  const [pdfs, setPdfs] = useState([]);
+
+  const fetchPDFs = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await axios.get('http://localhost:5000/api/pdf/getpdf', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const pdfArray = Array.isArray(res.data.pdfs)
+        ? res.data.pdfs
+        : Array.isArray(res.data)
+        ? res.data
+        : [];
+
+      setPdfs(pdfArray);
+    } catch (err) {
+      console.error('Failed to fetch PDFs:', err);
+    }
+  };
+
   const login = async ({ email, password }) => {
     const res = await axios.post('http://localhost:5000/api/auth/login', {
       email,
@@ -50,10 +71,11 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout }}>
+    <AuthContext.Provider value={{ user, login, signup, logout , pdfs, setPdfs, fetchPDFs}}>
       {children}
     </AuthContext.Provider>
   );
 };
 
 
+export const useAuth = () => useContext(AuthContext);

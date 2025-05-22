@@ -1,40 +1,41 @@
 'use client';
 
 import { useState } from 'react';
-import { useAuth } from '../../../authContext.js';
 import { useRouter } from 'next/navigation';
 import {
+  Container,
+  Paper,
+  Typography,
   TextField,
   Button,
   Box,
-  Typography,
-  Container,
-  Paper,
 } from '@mui/material';
+import { useAuth } from '../../../authContext.js';
 
-export default function SignupPage() {
-  const { signup, login } = useAuth();
+export default function LoginPage() {
+  const { login } = useAuth();
   const router = useRouter();
-  const [form, setForm] = useState({ name: '', email: '', password: '' });
+
+  const [form, setForm] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setForm((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
-      await signup(form);
-      await login({ email: form.email, password: form.password }); 
+      await login(form);
       router.push('/dashboard'); 
-      console.log('Signup successful');
     } catch (err) {
-      alert(err.response?.data?.message || 'Signup failed');
+      alert(err.response?.data?.message || 'Login failed');
     } finally {
       setLoading(false);
-      router.push('/');
     }
   };
 
@@ -42,18 +43,9 @@ export default function SignupPage() {
     <Container maxWidth="sm">
       <Paper elevation={3} sx={{ p: 4, mt: 8 }}>
         <Typography variant="h4" align="center" gutterBottom>
-          Sign Up
+          Log In
         </Typography>
         <Box component="form" onSubmit={handleSubmit}>
-          <TextField
-            label="Name"
-            name="name"
-            fullWidth
-            margin="normal"
-            value={form.name}
-            onChange={handleChange}
-            required
-          />
           <TextField
             label="Email"
             name="email"
@@ -81,11 +73,11 @@ export default function SignupPage() {
             sx={{ mt: 2 }}
             disabled={loading}
           >
-            {loading ? 'Creating Account...' : 'Sign Up'}
+            {loading ? 'Logging In...' : 'Log In'}
           </Button>
         </Box>
         <Typography variant="body2" align="center" sx={{ mt: 2 }}>
-          Already have an account? <a href="/login">Log in</a>
+          Don&apos;t have an account? <a href="/signup">Sign up</a>
         </Typography>
       </Paper>
     </Container>
