@@ -1,5 +1,5 @@
 'use client';
-
+import { Box} from '@mui/material';
 import { Container, Grid, Typography } from '@mui/material';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -23,6 +23,7 @@ export default function PDFPage() {
         headers: { Authorization: `Bearer ${token}` },
       });
       const pdf = await res1.json();
+      console.log("pdf is", pdf);
 
       const res2 = await fetch(`http://localhost:5000/api/comments/get/${id}`,
         {
@@ -49,14 +50,37 @@ export default function PDFPage() {
 
   return (
     <Container sx={{ mt: 4 }}>
-      <Grid container spacing={4}>
-        <Grid item xs={12} md={7}>
-          <PDFViewer fileName={pdf.fileName} filePath={pdf.filePath} />
-        </Grid>
-        <Grid item xs={12} md={5}>
-          <PDFComments pdfId={pdf._id} initialComments={comments} user={user} />
-        </Grid>
-      </Grid>
-    </Container>
+  <Box
+    sx={{
+      display: 'flex',
+      gap: 2,
+      height: 'calc(100vh - 100px)', // adjust as needed
+    }}
+  >
+    {/* PDF Viewer - 70% */}
+    <Box sx={{ flex: 7, overflow: 'auto' }}>
+      <PDFViewer fileName={pdf.fileName} gcsFileName={pdf.gcsFileName} />
+    </Box>
+
+    {/* Comments - 30% */}
+    <Box
+      sx={{
+        flex: 3,
+        bgcolor: '#f9f9f9',
+        borderRadius: 2,
+        boxShadow: 1,
+        padding: 2,
+        overflowY: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      <Typography variant="h6" gutterBottom>
+        Comments
+      </Typography>
+      <PDFComments pdfId={pdf._id} initialComments={comments} user={user} />
+    </Box>
+  </Box>
+</Container>
   );
 }

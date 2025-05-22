@@ -54,20 +54,6 @@ export default function PDFoptions({ pdf }) {
   </MenuItem>
 
   <MenuItem
-    onClick={() => {
-      if (menuPdf) {
-        const link = document.createElement('a');
-        link.href = menuPdf.filePath;
-        link.download = menuPdf.fileName;
-        link.click();
-      }
-      handleMenuClose();
-    }}
-  >
-    Download
-  </MenuItem>
-
-  <MenuItem
     // onClick={() => {
     //   if (menuPdf) {
         
