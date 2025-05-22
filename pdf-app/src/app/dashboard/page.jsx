@@ -20,7 +20,7 @@ import DateRangeIcon from '@mui/icons-material/DateRange';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../../authContext.js';
-
+import { useRouter } from 'next/navigation';
 import PDFoptions from '@/components/PDFoptions.jsx';
 import UploadPDFButton from '@/components/UploadPDFButton.jsx';
 
@@ -30,7 +30,7 @@ export default function DashboardPage() {
   const [filtered, setFiltered] = useState([]);
   const [search, setSearch] = useState('');
   const [dateFilter, setDateFilter] = useState('');
-
+  const router = useRouter();
 
   useEffect(() => {
     fetchPDFs();
@@ -114,7 +114,7 @@ export default function DashboardPage() {
               >
                 <TableCell 
                 sx={{ cursor: 'pointer' }}
-                onClick={() => window.open(pdf.filePath, '_blank')}
+                onClick={() => router.push(`/pdf/${pdf._id}`)}
                 >
                     {pdf.fileName}
                 </TableCell>

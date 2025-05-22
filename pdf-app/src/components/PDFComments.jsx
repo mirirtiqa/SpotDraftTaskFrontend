@@ -18,7 +18,7 @@ export default function PDFComments({ pdfId, initialComments = [], user }) {
     e.preventDefault();
     if (!form.content.trim()) return;
 
-    const res = await fetch(`http://localhost:5000/api/comments/public/${pdfId}`, {
+    const res = await fetch(`http://localhost:5000/api/comments/add`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -26,6 +26,7 @@ export default function PDFComments({ pdfId, initialComments = [], user }) {
       body: JSON.stringify({
         content: form.content,
         authorName: user?.name || 'Anonymous',
+        pdfId: pdfId,
       }),
     });
 

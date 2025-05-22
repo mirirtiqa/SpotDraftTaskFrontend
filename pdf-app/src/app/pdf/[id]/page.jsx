@@ -17,13 +17,14 @@ export default function PDFPage() {
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem('token');
+      console.log("in fetchdata of dynamic route of pdf")
 
-      const res1 = await fetch(`http://localhost:5000/api/pdf/${id}`, {
+      const res1 = await fetch(`http://localhost:5000/api/pdf/getpdf/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const pdf = await res1.json();
 
-      const res2 = await fetch(`http://localhost:5000/api/comments/public/${id}`,
+      const res2 = await fetch(`http://localhost:5000/api/comments/get/${id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

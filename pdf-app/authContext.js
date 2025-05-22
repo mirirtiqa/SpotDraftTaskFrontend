@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
   const fetchPDFs = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:5000/api/pdf/getpdf', {
+      const res = await axios.get('http://localhost:5000/api/pdf/getpdfs', {
         headers: { Authorization: `Bearer ${token}` },
       });
 
