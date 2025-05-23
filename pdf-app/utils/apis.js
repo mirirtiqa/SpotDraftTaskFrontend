@@ -1,9 +1,9 @@
 
 import axios from 'axios';
-
+const baseURL = 'https://spotdrafttaskbackend.onrender.com';
 export const signupReq = async ({ name, email, password }) => {
   try{
-    await axios.post('http://localhost:5000/api/auth/signup', {
+    await axios.post('${baseURL}/api/auth/signup', {
       name,
       email,
       password,
@@ -19,7 +19,7 @@ export const signupReq = async ({ name, email, password }) => {
   export const loginReq = async ({ email, password }) => {
 
     try{
-      const res = await axios.post('http://localhost:5000/api/auth/login', {
+      const res = await axios.post('${baseURL}/api/auth/login', {
       email,
       password,
     });
@@ -35,7 +35,7 @@ export const signupReq = async ({ name, email, password }) => {
     try{
       const token = localStorage.getItem('token');
 
-      const res = await axios.post('http://localhost:5000/api/pdf/upload', formData, {
+      const res = await axios.post('${baseURL}/api/pdf/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,
@@ -54,7 +54,7 @@ export const fetchPDFsReq = async () =>{
 
   try{
     const token = localStorage.getItem('token');
-    const res = await axios.get('http://localhost:5000/api/pdf/getpdfs', {
+    const res = await axios.get('${baseURL}/api/pdf/getpdfs', {
             headers: { Authorization: `Bearer ${token}` },
           });
     return res.data
@@ -67,7 +67,7 @@ export const fetchPDFsReq = async () =>{
 export const fetchPDF = async(id)=>{
   try{
     const token = localStorage.getItem('token');
-    const res = await fetch(`http://localhost:5000/api/pdf/getpdf/${id}`, {
+    const res = await fetch(`${baseURL}/api/pdf/getpdf/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
     const pdf =  res.json();
@@ -81,7 +81,7 @@ export const fetchPDF = async(id)=>{
 
 export const fetchSharedPDF = async(sharedToken)=>{
   try{
-    const res = await fetch(`http://localhost:5000/api/pdf/shared/${sharedToken}`);
+    const res = await fetch(`${baseURL}/api/pdf/shared/${sharedToken}`);
     const pdf = await res.json();
     return pdf;
   }
@@ -96,7 +96,7 @@ export const getPDFUrl = async (gcsFileName) => {
   try {
     const token = localStorage.getItem('token');
     console.log("token at getpdfurl is", token);
-    const res = await fetch(`http://localhost:5000/api/pdf/getpdfurl/${gcsFileName}`, {
+    const res = await fetch(`${baseURL}/api/pdf/getpdfurl/${gcsFileName}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     console.log("response is", res);
@@ -111,7 +111,7 @@ export const getPDFUrl = async (gcsFileName) => {
 }
 export const getSharedPDFUrl = async (gcsFileName,sharedToken) => {
   try {
-    const res = await fetch(`http://localhost:5000/api/pdf/getsharedpdfurl/${sharedToken}/${gcsFileName}`);
+    const res = await fetch(`${baseURL}/api/pdf/getsharedpdfurl/${sharedToken}/${gcsFileName}`);
 
     if (!res.ok) throw new Error("Failed to fetch PDF URL");
 
@@ -124,7 +124,7 @@ export const getSharedPDFUrl = async (gcsFileName,sharedToken) => {
 
 export const getShareLink = async (pdfId) => {
     const token = localStorage.getItem('token');
-    const res = await fetch(`http://localhost:5000/api/pdf/share/${pdfId}`, {
+    const res = await fetch(`${baseURL}/api/pdf/share/${pdfId}`, {
         headers: { Authorization: `Bearer ${token}` },
     });
     
@@ -140,7 +140,7 @@ export const getComments = async (pdfId) => {
 
     console.log(pdfId)
     const token = localStorage.getItem('token');
-    const res = await fetch(`http://localhost:5000/api/comments/get/${pdfId}`,
+    const res = await fetch(`${baseURL}/api/comments/get/${pdfId}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -154,7 +154,7 @@ export const getComments = async (pdfId) => {
 export const getSharedPDFComments = async (pdfId, sharedToken) => {
 
     console.log(pdfId)
-    const res = await fetch(`http://localhost:5000/api/comments/get/${sharedToken}/${pdfId}`);
+    const res = await fetch(`${baseURL}/api/comments/get/${sharedToken}/${pdfId}`);
     if (!res.ok) {
         console.error("Failed to fetch comments");
         return;
@@ -166,7 +166,7 @@ export const getSharedPDFComments = async (pdfId, sharedToken) => {
 export const addComment = async (pdfId, content, authorName) => {
     const token = localStorage.getItem('token');
 
-    const res = await fetch(`http://localhost:5000/api/comments/add`, {
+    const res = await fetch(`${baseURL}/api/comments/add`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -194,7 +194,7 @@ export const addComment = async (pdfId, content, authorName) => {
 
 export const addCommentOnShared = async (pdfId, content, authorName,sharedToken) => {
 
-    const res = await fetch(`http://localhost:5000/api/comments/add/onshared`, {
+    const res = await fetch(`${baseURL}/api/comments/add/onshared`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
