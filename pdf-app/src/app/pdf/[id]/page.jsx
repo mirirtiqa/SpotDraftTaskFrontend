@@ -7,23 +7,15 @@ import PDFViewer from '../../../components/PDFViewer';
 import PDFComments from '../../../components/PDFComments';
 import { useAuth } from '../../../../authContext.js';
 import ShareButton from '@/components/ShareButton';
+import { fetchPDF } from '../../../../utils/apis';
 
 export default function PDFPage() {
   const { id } = useParams();
-  const { user } = useAuth();
-
   const [pdf, setPdf] = useState(null);
-  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem('token');
-      console.log("in fetchdata of dynamic route of pdf")
-
-      const res = await fetch(`http://localhost:5000/api/pdf/getpdf/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const pdf = await res.json();
+      const pdf = await fetchPDF(id);
       console.log("pdf is", pdf);
       setPdf(pdf);
     };
@@ -49,12 +41,12 @@ export default function PDFPage() {
       height: 'calc(100vh - 100px)', 
     }}
   >
-    {/* PDF Viewer - 70% */}
+   
     <Box sx={{ flex: 7, overflow: 'auto' }}>
       <PDFViewer fileName={pdf.fileName} gcsFileName={pdf.gcsFileName} shared={false} />
     </Box>
 
-    {/* Comments - 30% */}
+   
     <Box
       sx={{
         flex: 3,
@@ -67,9 +59,6 @@ export default function PDFPage() {
         flexDirection: 'column',
       }}
     >
-      <Typography variant="h6" gutterBottom>
-        Comments
-      </Typography>
       <PDFComments pdfId={pdf.pdfId} shared={false}/>
     </Box>
   </Box>

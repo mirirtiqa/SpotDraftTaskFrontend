@@ -1,4 +1,97 @@
 
+import axios from 'axios';
+
+export const signupReq = async ({ name, email, password }) => {
+  try{
+    await axios.post('http://localhost:5000/api/auth/signup', {
+      name,
+      email,
+      password,
+    });
+
+  }
+  catch(error){
+    console.error("Error during signup:", error);
+  }
+    
+  };
+
+  export const loginReq = async ({ email, password }) => {
+
+    try{
+      const res = await axios.post('http://localhost:5000/api/auth/login', {
+      email,
+      password,
+    });
+    return res;
+    }
+    catch(error){
+      console.error("Error during login:", error);
+    }
+  }
+
+
+  export const uploadPDFReq = async (formData) => {
+    try{
+      const token = localStorage.getItem('token');
+
+      const res = await axios.post('http://localhost:5000/api/pdf/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const newPdf = res.data.pdf;
+      return newPdf;
+    }
+    catch(error){
+      console.error("Error during uploading PDF:", error);
+    }
+  }
+
+export const fetchPDFsReq = async () =>{
+
+  try{
+    const token = localStorage.getItem('token');
+    const res = await axios.get('http://localhost:5000/api/pdf/getpdfs', {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+    return res.data
+  }
+  catch(error){
+    console.error("Error during fetching PDFs:", error);
+  }
+}
+
+export const fetchPDF = async(id)=>{
+  try{
+    const token = localStorage.getItem('token');
+    const res = await fetch(`http://localhost:5000/api/pdf/getpdf/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    const pdf =  res.json();
+    return pdf;
+
+  }
+  catch(error){
+    console.error("Error during fetching PDF:", error);
+  }
+}
+
+export const fetchSharedPDF = async(sharedToken)=>{
+  try{
+    const res = await fetch(`http://localhost:5000/api/pdf/shared/${sharedToken}`);
+    const pdf = await res.json();
+    return pdf;
+  }
+  catch(error){
+    console.error("Error during fetching PDF:", error);
+  }
+}
+
+
+
 export const getPDFUrl = async (gcsFileName) => {
   try {
     const token = localStorage.getItem('token');

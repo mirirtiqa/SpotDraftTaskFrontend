@@ -3,6 +3,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import { useState } from 'react';
+import ShareButton from './ShareButton';
 
 
 export default function PDFoptions({ pdf }) {
@@ -39,47 +40,11 @@ export default function PDFoptions({ pdf }) {
     vertical: 'top',
     horizontal: 'right',
   }}
->
-  <MenuItem
-    // onClick={() => {
-    //   if (menuPdf) {
-    //     const shareUrl = `${window.location.origin}/shared/${menuPdf.shareToken || menuPdf._id}`;
-    //     navigator.clipboard.writeText(shareUrl);
-    //     alert('Share link copied!');
-    //   }
-    //   handleMenuClose();
-    // }}
   >
-    Share
+  <MenuItem>
+    <ShareButton pdfId={pdf._id} />
   </MenuItem>
-
-  <MenuItem
-    // onClick={() => {
-    //   if (menuPdf) {
-        
-    //     const token = localStorage.getItem('token');
-    //     axios
-    //       .delete(`http://localhost:5000/api/pdf/delete/${menuPdf._id}`, {
-    //         headers: {
-    //           Authorization: `Bearer ${token}`,
-    //         },
-    //       })
-    //       .then(() => {
-    //         setPdfs((prev) => prev.filter((p) => p._id !== menuPdf._id));
-    //         setFiltered((prev) => prev.filter((p) => p._id !== menuPdf._id));
-    //         alert('PDF deleted');
-    //       })
-    //       .catch((err) => {
-    //         alert('Failed to delete');
-    //         console.error(err);
-    //       });
-    //   }
-    //   handleMenuClose();
-    // }}
-  >
-    Delete
-  </MenuItem>
-</Menu>
+  </Menu>
 
 
 </>

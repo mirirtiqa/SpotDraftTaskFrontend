@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import { signupReq,loginReq, fetchPDFsReq } from './utils/apis';
 
 export const AuthContext = createContext();
 
@@ -18,17 +18,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchPDFs = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const res = await axios.get('http://localhost:5000/api/pdf/getpdfs', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      const pdfArray = Array.isArray(res.data.pdfs)
-        ? res.data.pdfs
-        : Array.isArray(res.data)
-        ? res.data
-        : [];
-
+      const pdfArray = await fetchPDFsReq();
       setPdfs(pdfArray);
     } catch (err) {
       console.error('Failed to fetch PDFs:', err);
@@ -36,23 +26,26 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async ({ email, password }) => {
-    const res = await axios.post('http://localhost:5000/api/auth/login', {
-      email,
-      password,
-    });
-
+    try{
+    const res = await loginReq({ email, password });
     const { user, token } = res.data;
     localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('token', token);
     setUser(user);
+    }
+    catch(error){
+      console.error("Error during login:", error);
+    }
   };
 
   const signup = async ({ name, email, password }) => {
-    await axios.post('http://localhost:5000/api/auth/signup', {
-      name,
-      email,
-      password,
-    });
+    try{
+      await signupReq({ name, email, password });
+    }
+    catch(error){
+      console.error("Error during signup:", error);
+    }
+    
   };
 
   const logout = () => {

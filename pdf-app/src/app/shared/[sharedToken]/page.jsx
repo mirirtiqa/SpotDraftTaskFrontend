@@ -5,6 +5,7 @@ import { Box, Container, Typography } from "@mui/material";
 import { useState } from "react";
 import PDFViewer from "../../../components/PDFViewer";
 import PDFComments from "../../../components/PDFComments";
+import { fetchSharedPDF } from "../../../../utils/apis";
 
 
 export default function SharedPDF(){
@@ -13,15 +14,15 @@ export default function SharedPDF(){
 
     useEffect(() => {
         const fetchData = async () => {
-
-            const res = await fetch(`http://localhost:5000/api/pdf/shared/${sharedToken}`)
-            if (!res.ok) {
-                console.error("Failed to fetch PDF URL");
-                return;
-            }
-            const pdf = await res.json();
+          try{
+            const pdf = await fetchSharedPDF(sharedToken);
             console.log("pdf is", pdf);
             setPdf(pdf);
+          }
+          catch(error){
+            console.error("Error during fetching shared PDF:", error);
+          }
+          
         };
 
         fetchData();
@@ -45,12 +46,12 @@ export default function SharedPDF(){
       height: 'calc(100vh - 100px)', 
     }}
   >
-    {/* PDF Viewer - 70% */}
+    
     <Box sx={{ flex: 7, overflow: 'auto' }}>
       <PDFViewer fileName={pdf.fileName} gcsFileName={pdf.gcsFileName} shared={sharedToken} />
     </Box>
 
-    {/* Comments - 30% */}
+ 
     <Box
       sx={{
         flex: 3,

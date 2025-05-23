@@ -84,9 +84,6 @@ export default function PDFComments({ pdfId, shared }) {
         </form>
       </Paper>
 
-      {/* <Typography variant="h6" gutterBottom>
-        Comments
-      </Typography> */}
 
       {comments && comments.length > 0 ? (
         comments.map((comment) => (

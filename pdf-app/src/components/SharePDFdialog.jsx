@@ -15,15 +15,12 @@ import {
   Alert,
 } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import EmailIcon from '@mui/icons-material/Email';
 import { useState } from 'react';
-import axios from 'axios';
 
-export default function SharePDFdialog({ open, onClose, shareUrl, pdfId }) {
-  const [email, setEmail] = useState('');
+export default function SharePDFdialog({ open, onClose, shareUrl}) {
   const [copied, setCopied] = useState(false);
   const [message, setMessage] = useState('');
-  const [status, setStatus] = useState('idle'); // idle | sending | success | error
+  const [status, setStatus] = useState('idle'); 
 
   const handleCopy = async () => {
     try {
@@ -34,23 +31,6 @@ export default function SharePDFdialog({ open, onClose, shareUrl, pdfId }) {
     }
   };
 
-  const handleSend = async () => {
-    if (!email) return;
-    setStatus('sending');
-    try {
-      await axios.post(`http://localhost:5000/api/share/email`, {
-        email,
-        link: shareUrl,
-        pdfId,
-      });
-      setStatus('success');
-      setMessage('Email sent successfully!');
-      setEmail('');
-    } catch {
-      setStatus('error');
-      setMessage('Failed to send email');
-    }
-  };
 
   return (
     <>
@@ -58,7 +38,7 @@ export default function SharePDFdialog({ open, onClose, shareUrl, pdfId }) {
         <DialogTitle>Share PDF</DialogTitle>
         <DialogContent>
           <Typography variant="body2" sx={{ mb: 1 }}>
-            Share this PDF with others using the link below:
+            Link
           </Typography>
 
           <Box display="flex" alignItems="center" mb={2}>
@@ -77,33 +57,11 @@ export default function SharePDFdialog({ open, onClose, shareUrl, pdfId }) {
                 ),
               }}
             />
-          </Box>
-
-          <Typography variant="body2" sx={{ mb: 1 }}>
-            Or send it to someone by email:
-          </Typography>
-
-          <TextField
-            label="Recipient Email"
-            fullWidth
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <EmailIcon />
-                </InputAdornment>
-              ),
-            }}
-          />
+          </Box> 
         </DialogContent>
 
         <DialogActions>
           <Button onClick={onClose}>Close</Button>
-          <Button variant="contained" onClick={handleSend} disabled={status === 'sending'}>
-            {status === 'sending' ? 'Sending...' : 'Send Email'}
-          </Button>
         </DialogActions>
       </Dialog>
 

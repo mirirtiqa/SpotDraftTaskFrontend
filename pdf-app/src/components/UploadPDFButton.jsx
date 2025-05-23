@@ -18,9 +18,10 @@ import { useState } from 'react';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import axios from 'axios';
 import { useAuth } from '../../authContext.js';
+import { uploadPDFReq } from '../../utils/apis.js';
 
 export default function UploadPDFButton() {
-  const { pdfs, setPdfs } = useAuth();
+  const { user,pdfs, setPdfs } = useAuth();
 
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState(null);
@@ -39,6 +40,15 @@ export default function UploadPDFButton() {
     setStatus('idle');
   };
 
+  const handleUploadButtonClick = () => {
+      if(!user){
+        alert("Please login to upload a PDF");
+        return;
+      }
+      setOpen(true)
+  }
+
+
   const handleUpload = async () => {
     if (!file) return;
 
@@ -47,16 +57,8 @@ export default function UploadPDFButton() {
 
     try {
       setStatus('uploading');
-      const token = localStorage.getItem('token');
 
-      const res = await axios.post('http://localhost:5000/api/pdf/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const newPdf = res.data.pdf;
+      const newPdf = await uploadPDFReq(formData);
       setPdfs([newPdf, ...pdfs]);
 
       setStatus('success');
@@ -75,18 +77,18 @@ export default function UploadPDFButton() {
 
   return (
     <>
-      {/* Upload Button */}
+     
       <Tooltip title="Upload a PDF">
         <Button
           variant="contained"
           startIcon={<UploadFileIcon />}
-          onClick={() => setOpen(true)}
+          onClick={handleUploadButtonClick}
         >
           Upload PDF
         </Button>
       </Tooltip>
 
-      {/* Upload Dialog */}
+      
       <Dialog open={open} onClose={() => setOpen(false)} fullWidth maxWidth="sm">
         <DialogTitle>Upload PDF</DialogTitle>
 
