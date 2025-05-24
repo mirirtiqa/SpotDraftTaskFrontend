@@ -27,6 +27,9 @@ export default function PDFComments({ pdfId, shared }) {
           const data = await getSharedPDFComments(pdfId,shared);
           console.log("comments are", data);
           setComments(data);
+          if(user){
+            form.authorName = user.name;
+          }
         }
         else{
           const data = await getComments(pdfId);
@@ -71,7 +74,7 @@ export default function PDFComments({ pdfId, shared }) {
             onChange={(e) => setForm(prev => ({ ...prev, content: e.target.value }))}
             placeholder="Write a comment..."
           />
-          {shared && <TextField
+          {shared && !user && <TextField
             fullWidth
             rows={4}
             value={form.authorName}

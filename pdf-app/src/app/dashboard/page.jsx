@@ -71,7 +71,7 @@ export default function DashboardPage() {
 
   return (
     <Container sx={{ mt: 4 }}>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom sx={{ color:'primary.main'}}>
         Documents
       </Typography>
 

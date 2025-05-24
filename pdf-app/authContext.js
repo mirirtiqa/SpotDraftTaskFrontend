@@ -6,14 +6,7 @@ import { signupReq,loginReq, fetchPDFsReq } from './utils/apis';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const stored = localStorage.getItem('user');
-      return stored ? JSON.parse(stored) : null;
-    }
-    return null;
-  });
-
+  const [user, setUser] = useState(null);
   const [pdfs, setPdfs] = useState([]);
 
   const fetchPDFs = async () => {
@@ -56,14 +49,10 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
-  useEffect(() => {
-    const handleStorage = () => {
-      const stored = localStorage.getItem('user');
-      setUser(stored ? JSON.parse(stored) : null);
-    };
-    window.addEventListener('storage', handleStorage);
-    return () => window.removeEventListener('storage', handleStorage);
-  }, []);
+ useEffect(() => {
+  const stored = localStorage.getItem('user');
+  if (stored) setUser(JSON.parse(stored));
+}, []);
 
   return (
     <AuthContext.Provider value={{ user, login, signup, logout , pdfs, setPdfs, fetchPDFs }}>

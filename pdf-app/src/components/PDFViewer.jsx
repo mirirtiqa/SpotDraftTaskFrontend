@@ -33,7 +33,7 @@ export default function PDFViewer({ fileName, gcsFileName,shared}) {
   
   return (
     <Box>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant="h6" gutterBottom sx={{color:'primary.main', mb: 2, textAlign: 'center'}}>
         {fileName}
       </Typography>
        {filePath ? (
