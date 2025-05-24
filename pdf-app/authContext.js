@@ -18,7 +18,8 @@ export const AuthProvider = ({ children }) => {
 
   const fetchPDFs = async () => {
     try {
-      const pdfArray = await fetchPDFsReq();
+      const res = await fetchPDFsReq();
+      const pdfArray = Array.isArray(res.data) ? res.data : [];
       setPdfs(pdfArray);
     } catch (err) {
       console.error('Failed to fetch PDFs:', err);
@@ -32,9 +33,10 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('token', token);
     setUser(user);
+    return user;
     }
     catch(error){
-      console.error("Error during login:", error);
+      throw error;
     }
   };
 
@@ -64,7 +66,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout , pdfs, setPdfs, fetchPDFs}}>
+    <AuthContext.Provider value={{ user, login, signup, logout , pdfs, setPdfs, fetchPDFs }}>
       {children}
     </AuthContext.Provider>
   );

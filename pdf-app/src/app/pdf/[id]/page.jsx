@@ -37,8 +37,10 @@ export default function PDFPage() {
   <Box
     sx={{
       display: 'flex',
+      flexDirection: { xs: 'column', md: 'row' },
       gap: 2,
       height: 'calc(100vh - 100px)', 
+      mt: 2,
     }}
   >
    

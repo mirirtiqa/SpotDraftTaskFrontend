@@ -18,6 +18,7 @@ export default function LoginPage() {
 
   const [form, setForm] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     setForm((prev) => ({
@@ -30,10 +31,13 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       setLoading(true);
-      await login(form);
+      const res = await login(form);
+      if(res) {
       router.push('/dashboard'); 
+      }
     } catch (err) {
-      alert(err.response?.data?.message || 'Login failed');
+      setError(err.message || 'Login failed');
+      setForm({ email: '', password: '' }); 
     } finally {
       setLoading(false);
     }
@@ -66,6 +70,11 @@ export default function LoginPage() {
             onChange={handleChange}
             required
           />
+          {error && (
+            <Typography color="error" variant="body2"  sx={{ mt: 2 }}>
+              {error}
+            </Typography>
+          )}
           <Button
             type="submit"
             variant="contained"

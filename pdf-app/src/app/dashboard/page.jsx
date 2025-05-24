@@ -23,9 +23,10 @@ import { useAuth } from '../../../authContext.js';
 import { useRouter } from 'next/navigation';
 import PDFoptions from '@/components/PDFoptions.jsx';
 import UploadPDFButton from '@/components/UploadPDFButton.jsx';
+import { fetchPDFsReq } from '../../../utils/apis.js';
 
 export default function DashboardPage() {
-  const { user,pdfs,fetchPDFs,setPdfs } = useAuth();
+  const { user,pdfs,setPdfs } = useAuth();
  
   const [filtered, setFiltered] = useState([]);
   const [search, setSearch] = useState('');
@@ -33,10 +34,24 @@ export default function DashboardPage() {
   const router = useRouter();
 
   useEffect(() => {
-    fetchPDFs();
+    const getPDFs = async () => {
+        try {
+          const res = await fetchPDFsReq();
+          console.log("response in getPDFs is", res);
+          const pdfArray = Array.isArray(res) ? res : [];
+          console.log("pdfArray is", pdfArray);
+         setPdfs(pdfArray);
+          console.log("pdfArray in dashboard page is", pdfArray);
+          console.log("pdfs in dashboard page is - UseEffect 1", pdfs);
+        } catch (err) {
+          console.error('Failed to fetch PDFs:', err);
+        }
+      };
+    getPDFs();
   }, []);
 
   useEffect(() => {
+    console.log("pdfs in dashboard page is -Useeffec 2", pdfs);
     let result = [...pdfs];
 
     if (search) {

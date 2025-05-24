@@ -16,6 +16,7 @@ import { getComments , getSharedPDFComments, addComment, addCommentOnShared} fro
 export default function PDFComments({ pdfId, shared }) {
   const [comments, setComments] = useState([]);
   const [form, setForm] = useState({ content: '',authorName: '' });
+  const [error, setError] = useState('');
   const { user } = useAuth();
   const token = localStorage.getItem('token');
   
@@ -31,6 +32,7 @@ export default function PDFComments({ pdfId, shared }) {
           const data = await getComments(pdfId);
           console.log("comments are", data);
           setComments(data);
+          form.authorName = user.name;
         }
         
       };
@@ -43,14 +45,13 @@ export default function PDFComments({ pdfId, shared }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.content.trim()) return;
     if(shared){
       const data = await addCommentOnShared(pdfId, form.content, form.authorName, shared);
       setComments([...comments, data]);
       console.log("data is", data);
     }
     else{
-      const data = await addComment(pdfId, form.content, user.name);
+      const data = await addComment(pdfId, form.content, form.authorName);
       setComments([...comments, data]);
 
     }
@@ -78,17 +79,21 @@ export default function PDFComments({ pdfId, shared }) {
             placeholder="Your name"
           /> }
           
-          <Button type="submit" variant="contained" sx={{ mt: 2 }}>
+          <Button type="submit" variant="contained" sx={{ mt: 2 }} disabled={!form.content.trim() || !form.authorName}>
             Add
           </Button>
         </form>
       </Paper>
 
-
+      <Typography variant="h6" gutterBottom>
+        Comments
+      </Typography>
       {comments && comments.length > 0 ? (
         comments.map((comment) => (
-          <Paper key={comment._id} sx={{ p: 2, mb: 2 }}>
-            <Typography variant="subtitle2">{comment.authorName}</Typography>
+          <Paper key={comment._id} sx={{ p: 2, mb: 2, display: 'flex', flexDirection: 'column' }}>
+            
+            <Typography sx={{'color': 'primary.main'}} variant="subtitle2">{comment.authorName}</Typography>
+            <Typography sx={{color:'GrayText'}} variant="subtitle2">{new Date(comment.createdAt).toISOString().split('T')[0]}</Typography>
             <Divider sx={{ my: 1 }} />
             <Typography>{comment.content}</Typography>
           </Paper>

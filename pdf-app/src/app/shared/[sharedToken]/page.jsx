@@ -42,6 +42,7 @@ export default function SharedPDF(){
   <Box
     sx={{
       display: 'flex',
+      flexDirection: { xs: 'column', md: 'row' },
       gap: 2,
       height: 'calc(100vh - 100px)', 
     }}
@@ -64,9 +65,6 @@ export default function SharedPDF(){
         flexDirection: 'column',
       }}
     >
-      <Typography variant="h6" gutterBottom>
-        Comments
-      </Typography>
       <PDFComments pdfId={pdf.pdfId} shared={sharedToken}/>
     </Box>
   </Box>

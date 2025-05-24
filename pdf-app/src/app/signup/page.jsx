@@ -17,10 +17,18 @@ export default function SignupPage() {
   const router = useRouter();
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
+  const handleConfirmPasswordChange = (e) => {
+    if (e.target.value !== form.password) {
+      setError('Passwords do not match');
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -74,6 +82,25 @@ export default function SignupPage() {
             onChange={handleChange}
             required
           />
+          <TextField
+            label="Confirm Password"
+            name="confirmPassword"
+            type="password"
+            fullWidth
+            margin="normal"
+            value={confirmPassword}
+            onChange={(e) => {
+              setError('');
+              handleConfirmPasswordChange(e);
+              setConfirmPassword(e.target.value);
+            }}
+            required
+          />
+          {error && (
+            <Typography color="error" variant="body2" sx={{ mt: 2 }}>
+              {error}
+            </Typography>
+          )}
           <Button
             type="submit"
             variant="contained"

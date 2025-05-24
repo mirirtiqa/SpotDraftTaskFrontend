@@ -1,9 +1,13 @@
 
 import axios from 'axios';
 const baseURL = 'https://spotdrafttaskbackend.onrender.com';
+
+
+
+
 export const signupReq = async ({ name, email, password }) => {
   try{
-    await axios.post('${baseURL}/api/auth/signup', {
+    await axios.post(`${baseURL}/api/auth/signup`, {
       name,
       email,
       password,
@@ -19,14 +23,16 @@ export const signupReq = async ({ name, email, password }) => {
   export const loginReq = async ({ email, password }) => {
 
     try{
-      const res = await axios.post('${baseURL}/api/auth/login', {
+      const res = await axios.post(`${baseURL}/api/auth/login`, {
       email,
       password,
     });
+    console.log("response is", res);
     return res;
     }
     catch(error){
       console.error("Error during login:", error);
+      throw new Error(error.response?.data?.error || 'Login failed');
     }
   }
 
@@ -35,7 +41,7 @@ export const signupReq = async ({ name, email, password }) => {
     try{
       const token = localStorage.getItem('token');
 
-      const res = await axios.post('${baseURL}/api/pdf/upload', formData, {
+      const res = await axios.post(`${baseURL}/api/pdf/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,
@@ -54,9 +60,11 @@ export const fetchPDFsReq = async () =>{
 
   try{
     const token = localStorage.getItem('token');
-    const res = await axios.get('${baseURL}/api/pdf/getpdfs', {
+    console.log("token is", token);
+    const res = await axios.get(`${baseURL}/api/pdf/getpdfs`, {
             headers: { Authorization: `Bearer ${token}` },
           });
+    console.log("response is", res);
     return res.data
   }
   catch(error){
