@@ -1,6 +1,6 @@
 # PDF Management and Collaboration System 
 
-This is the  repository of the frontend of a PDF Management & Collaboration System. Backend was developed in a separate repository [here](https://github.com/mirirtiqa/SpotDraftTaskBackend)
+This is the  repository of the frontend of "PDF Management & Collaboration System". Backend was developed in a separate repository [here](https://github.com/mirirtiqa/SpotDraftTaskBackend)
 
 Public link of Application - [spot-draft-task-frontend.vercel.app](spot-draft-task-frontend.vercel.app)
 ---
@@ -92,11 +92,11 @@ npm run dev
 
 ##  Note:
 
-- If you dont' want to use the deployed Backend for thsi Application on render then make sure the [backend repo](https://github.com/mirirtiqa/SpotDraftTaskBackend) is running and configured and you have updated the baseUrl in utils/apis.js.
+- If you dont' want to use the deployed Backend for this Application on render then make sure the [backend repo](https://github.com/mirirtiqa/SpotDraftTaskBackend) is running and configured and you have updated the baseUrl in utils/apis.js.
 
 
 ---
 
-##  Author
+
 
 Built with 💙 by Irtiqa
