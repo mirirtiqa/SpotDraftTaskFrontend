@@ -1,4 +1,4 @@
-# 📘 PDF Management and Collaboration System 
+# PDF Management and Collaboration System 
 
 This is the  repository of the frontend of a PDF Management & Collaboration System. Backend was developed in a separate repository [here](https://github.com/mirirtiqa/SpotDraftTaskBackend)
 
@@ -21,7 +21,7 @@ Public link of Application - [spot-draft-task-frontend.vercel.app](spot-draft-ta
 
 ##  Tech Stack
 
-- Next.js 14 
+- Next.js  
 - Material UI
 - Context API
 - Google Cloud Storage (via backend API)
@@ -90,9 +90,10 @@ npm run dev
 ```
 
 
-##  Backend
+##  Note:
 
-If you dont' want to use the deployed Backend for thsi Application on render then make sure the [backend repo](https://github.com/mirirtiqa/SpotDraftTaskBackend) is running and configured and you have updated the baseUrl in utils/apis.js.
+- If you dont' want to use the deployed Backend for thsi Application on render then make sure the [backend repo](https://github.com/mirirtiqa/SpotDraftTaskBackend) is running and configured and you have updated the baseUrl in utils/apis.js.
+
 
 ---
 
