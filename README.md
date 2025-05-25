@@ -17,6 +17,7 @@ Public link of Application - [spot-draft-task-frontend.vercel.app](spot-draft-ta
 -  MongoDb to store user information (name, hashed password, user's uploaded pdf details, comments on pdf's)
 -  Reset Password using link if user forgets password.
 -  Uses ContextAPI and LocalStorage to store user's name, email and token
+-  Responsive Website
 
 ---
 
