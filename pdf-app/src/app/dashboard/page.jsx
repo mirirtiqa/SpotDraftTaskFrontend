@@ -97,19 +97,13 @@ export default function DashboardPage() {
             ),
           }}
         />
+        <Typography variant="subtitle1" sx={{ alignSelf: 'center' }}>
+          Filter by date: 
+        </Typography>
         <TextField
-          label="Filter by date"
           type="date"
           value={dateFilter}
           onChange={(e) => setDateFilter(e.target.value)}
-          InputLabelProps={{ shrink: true }}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <DateRangeIcon />
-              </InputAdornment>
-            ),
-          }}
         />
       </Box>
 
