@@ -13,6 +13,7 @@ import {
   ListItemText,
   useTheme,
   useMediaQuery,
+  Avatar,
 } from '@mui/material';
 import DescriptionIcon from '@mui/icons-material/Description';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -96,7 +97,9 @@ export default function Navbar() {
                   Logout
                 </Button>
                 <IconButton color="primary" onClick={() => router.push('/')}>
-                  <SettingsIcon />
+                  <Avatar sx={{ bgcolor: 'primary.main' }}>
+                      {user.name?.charAt(0).toUpperCase() || 'U'}
+              </Avatar>
                 </IconButton>
               </Box>
             ) : (
