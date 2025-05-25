@@ -85,8 +85,11 @@ export default function LoginPage() {
             {loading ? 'Logging In...' : 'Log In'}
           </Button>
         </Box>
-        <Typography variant="body2" align="center" sx={{ mt: 2 }}>
-          Don&apos;t have an account? <a href="/signup">Sign up</a>
+        <Typography variant="body2" align="center" sx={{ mt: 2, color: 'primary.main' }}>
+          <a href="/signup">Create Account</a>
+        </Typography>
+        <Typography variant="body2" align="center" sx={{ mt: 2, color: 'primary.main' }}>
+          <a href="/forgotPassword">Forgot password? </a>
         </Typography>
       </Paper>
     </Container>

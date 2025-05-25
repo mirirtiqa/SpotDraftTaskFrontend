@@ -52,14 +52,17 @@ export default function PDFComments({ pdfId, shared }) {
       const data = await addCommentOnShared(pdfId, form.content, form.authorName, shared);
       setComments([...comments, data]);
       console.log("data is", data);
+      setForm({ content: '', authorName: '' });
     }
     else{
       const data = await addComment(pdfId, form.content, form.authorName);
       setComments([...comments, data]);
+      setForm({ content: '', authorName: user.name });
+   
 
     }
     
-    setForm({ content: '', authorName: '' });
+    
   };
 
   return (

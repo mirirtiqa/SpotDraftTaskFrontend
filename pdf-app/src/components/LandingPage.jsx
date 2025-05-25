@@ -13,6 +13,7 @@ export default function landingPage() {
         display: 'flex',
         alignItems: 'center',
         background: 'linear-gradient(to bottom right, #e3f2fd, #ffffff)',
+        mb:0,
       }}
     >
       <Container maxWidth="sm" sx={{ textAlign: 'center' }}>

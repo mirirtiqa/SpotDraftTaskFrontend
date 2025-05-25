@@ -70,7 +70,7 @@ export default function DashboardPage() {
   }, [search, dateFilter, pdfs]);
 
   return (
-    <Container sx={{ mt: 4 }}>
+    <Container sx={{ mt: 4 , mb: 4 }}>
       <Typography variant="h4" gutterBottom sx={{ color:'primary.main'}}>
         Documents
       </Typography>

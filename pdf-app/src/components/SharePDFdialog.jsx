@@ -15,12 +15,19 @@ import {
   Alert,
 } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import SendIcon from '@mui/icons-material/Send';
 import { useState } from 'react';
+import axios from 'axios';
+import { sharePDFLinkInEmail } from '../../utils/apis';
+import { useAuth } from '../../authContext.js';
 
-export default function SharePDFdialog({ open, onClose, shareUrl}) {
+export default function SharePDFdialog({ open, onClose, shareUrl }) {
+  const { user } = useAuth();
+
   const [copied, setCopied] = useState(false);
+  const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  const [status, setStatus] = useState('idle'); 
+  const [status, setStatus] = useState('idle');
 
   const handleCopy = async () => {
     try {
@@ -31,6 +38,24 @@ export default function SharePDFdialog({ open, onClose, shareUrl}) {
     }
   };
 
+  const handleSendEmail = async () => {
+    if (!email) {
+      setMessage('Please enter an email address');
+      setStatus('error');
+      return;
+    }
+
+    try {
+      const res = await sharePDFLinkInEmail(email, shareUrl,user.name);
+      setStatus('success');
+      setMessage(res);
+      setEmail('');
+    } catch (err) {
+      console.error(err);
+      setStatus('error');
+      setMessage(err.message || 'Failed to send email');
+    }
+  };
 
   return (
     <>
@@ -41,7 +66,7 @@ export default function SharePDFdialog({ open, onClose, shareUrl}) {
             Link
           </Typography>
 
-          <Box display="flex" alignItems="center" mb={2}>
+          <Box display="flex" alignItems="center" mb={3}>
             <TextField
               value={shareUrl}
               fullWidth
@@ -57,7 +82,27 @@ export default function SharePDFdialog({ open, onClose, shareUrl}) {
                 ),
               }}
             />
-          </Box> 
+          </Box>
+
+          <Typography variant="body2" sx={{ mb: 1 }}>
+            Send link via email
+          </Typography>
+
+          <Box display="flex" gap={1} alignItems="center">
+            <TextField
+              fullWidth
+              label="Recipient email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <IconButton
+              color="primary"
+              onClick={handleSendEmail}
+              sx={{ mt: 1 }}
+            >
+              <SendIcon />
+            </IconButton>
+          </Box>
         </DialogContent>
 
         <DialogActions>

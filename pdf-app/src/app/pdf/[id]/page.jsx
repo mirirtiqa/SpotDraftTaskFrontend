@@ -32,7 +32,7 @@ export default function PDFPage() {
   }
 
   return (
-    <Container sx={{ mt: 4 }}>
+    <Container sx={{ mt: 4, mb: 0,pb:4, overflow: 'hidden' }}>
      <ShareButton pdfId={id}/>
   <Box
     sx={{

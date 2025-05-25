@@ -225,3 +225,49 @@ export const addCommentOnShared = async (pdfId, content, authorName,sharedToken)
 
 
 }
+
+export const forgotPasswordReq = async (email) => {
+  try {
+      const res = await axios.post(`${baseURL}/api/auth/forgot-password`, { email });
+      return res.status;
+    } catch (err) {
+        console.error('Error sending reset link:', err);
+        throw new Error(err || 'Failed to send reset link');
+      
+    }
+
+}
+
+export const resetPasswordReq = async (token, password) => {
+   try {
+      const res = await axios.post(`${baseURL}/api/auth/reset-password/${token}`, { password });
+      return res.status;
+    } catch (err) {
+      throw new Error(err || 'Failed to reset password');
+    }
+}
+
+export const sharePDFLinkInEmail = async (email, shareUrl,name) => 
+{
+  try {
+
+      const res = await fetch(`${baseURL}/api/pdf/share-link-in-email`, {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json',
+                            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                          },
+                          body: JSON.stringify({
+                            email:email,
+                            shareUrl: shareUrl,
+                            name: name
+                          }),
+      });
+      
+        return "Link sent successfully!";
+      
+      } catch (err) {
+        console.error('Error sending share link in email:', err);
+        throw new Error(err.response?.data?.message || 'Failed to send share link in email');
+      }
+}
